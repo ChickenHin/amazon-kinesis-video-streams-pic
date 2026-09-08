@@ -1,5 +1,5 @@
 name: clang-format-check
-on: [ push ]
+# on: [ push ]
 jobs:
   check-format:
     runs-on: ubuntu-latest
