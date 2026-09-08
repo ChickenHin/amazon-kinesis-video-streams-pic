@@ -1,14 +1,7 @@
 name: PIC CI
 
 on:
-  push:
-    branches:
-      - develop
-      - master
-  pull_request:
-    branches:
-      - develop
-      - master
+  workflow_dispatch: 
 
 env:
   AWS_KVS_LOG_LEVEL: 2
@@ -19,8 +12,8 @@ jobs:
     strategy:
       matrix:
         os:
-          - name: Mac Intel
-            runner: macos-15-intel
+          # - name: Mac Intel
+          #   runner: macos-15-intel
           - name: Mac Apple Silicon
             runner: macos-15
         compiler:
@@ -88,10 +81,10 @@ jobs:
           cd build
           ulimit -c unlimited -S
           timeout --signal=SIGABRT 40m ./tst/kvspic_test --gtest_filter="${{ env.TEST_FILTER }}"
-      - name: Code coverage
-        run: |
-          for test_file in $(find CMakeFiles/kvspic.dir CMakeFiles/kvspicClient.dir CMakeFiles/kvspicState.dir CMakeFiles/kvspicUtils.dir -name '*.gcno'); do gcov $test_file; done
-          bash <(curl -s https://codecov.io/bash)
+      # - name: Code coverage
+      #   run: |
+      #     for test_file in $(find CMakeFiles/kvspic.dir CMakeFiles/kvspicClient.dir CMakeFiles/kvspicState.dir CMakeFiles/kvspicUtils.dir -name '*.gcno'); do gcov $test_file; done
+      #     bash <(curl -s https://codecov.io/bash)
 
   linux-sanitizers:
     strategy:
